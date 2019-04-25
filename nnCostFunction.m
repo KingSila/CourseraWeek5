@@ -58,10 +58,32 @@ a3 = sigmoid(z3);
 
  part1 = -(y_matrix) .* log(a3);
  part2 = (1-y_matrix) .* log(1-(a3));
- J = sum(sum((part1 - part2))) ;
- J = J / m;
-%%(1-y_matrix) * log(1- sigmoid(a3))) / m;
+ j1 = sum(sum((part1 - part2))) ;
+ j2 = j1 / m;
 
+ %%  Add regularization
+ Theta1(:,1) = zeros;
+ Theta2(:,1) = zeros;
+ 
+ %Theta1 = Theta1(:, [2,end]);
+ %Theta2 = Theta2(:, [2,end]);
+ 
+t1 = sum(sum(Theta1 .^ 2)) ;
+t2 = sum(sum(Theta2 .^ 2));
+
+%reg1 = sum(sum(t1));
+%reg2 = sum(sum(t2));
+reg3 = lambda/(2*m);
+
+regJ = reg3 *(t1 + t2);
+
+J = regJ + j2;
+
+%%%  Implement the Forard Propagation
+
+
+
+ 
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
