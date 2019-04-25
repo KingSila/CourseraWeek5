@@ -65,9 +65,7 @@ a3 = sigmoid(z3);
  Theta1(:,1) = zeros;
  Theta2(:,1) = zeros;
  
- %Theta1 = Theta1(:, [2,end]);
- %Theta2 = Theta2(:, [2,end]);
- 
+
 t1 = sum(sum(Theta1 .^ 2)) ;
 t2 = sum(sum(Theta2 .^ 2));
 
@@ -79,7 +77,6 @@ regJ = reg3 *(t1 + t2);
 
 J = regJ + j2;
 
-%%%  Implement the Forard Propagation
 
 
 
@@ -101,6 +98,20 @@ J = regJ + j2;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+d3 = a3 - y_matrix;
+z2Sig = sigmoidGradient(z2);
+
+Theta2_m = Theta2(:,2:end);
+d2 = (d3 * Theta2_m) .* z2Sig;
+
+                                                                                                                            
+Delta1 = transpose(d2) * a1;
+Delta2 =  transpose(d3) * a2 ;
+
+Theta1_grad = (Delta1)/m;
+Theta2_grad = (Delta2)/m;
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -112,11 +123,16 @@ J = regJ + j2;
 
 
 
+Theta1(:,1) = zeros;
+Theta2(:,1) = zeros;
+ 
+
+Theta1 = Theta1 * (lambda/m);
+Theta2 = Theta2 * (lambda/m);
 
 
-
-
-
+Theta1_grad = Theta1_grad + Theta1;
+Theta2_grad = Theta2_grad + Theta2;
 
 
 
